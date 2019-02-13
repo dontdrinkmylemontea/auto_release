@@ -1,8 +1,6 @@
 var http = require("http");
 var shell = require("shelljs");
-
-// 根据配置文件判断位置
-import { projectPath } from "./config.js";
+var { projectPath } = require("./config.js");
 
 const port = 8080;
 
