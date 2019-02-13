@@ -15,7 +15,7 @@ http
       const buffer = Buffer.from(data);
       const str = buffer.toString();
       console.log(str);
-      if (str) {
+      if (0) {
         const res1 = shell.cd("/home/bmap_doc/");
         console.log("res1", res1);
         // 执行git pull
