@@ -2,7 +2,7 @@ var http = require("http");
 var shell = require("shelljs");
 
 // 根据配置文件判断位置
-// import {projectPath} from './config.js';
+import { projectPath } from "./config.js";
 
 const port = 8080;
 
@@ -14,7 +14,12 @@ http
     require.on("data", data => {
       const buffer = Buffer.from(data);
       const str = buffer.toString();
-      console.log(str);
+      const jsonobj = buffer.toJSON();
+      const path = projectPath.get(jsonobj.project_id);
+      if (path) {
+        console.log(path);
+      }
+      console.log(jsonobj.project_id);
       if (0) {
         const res1 = shell.cd("/home/bmap_doc/");
         console.log("res1", res1);
