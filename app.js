@@ -10,6 +10,7 @@ http
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
       const path = projectPath.get(jsonobj.project_id);
+      console.log(projectPath, path, jsonobj.project_id);
       if (path) {
         const res1 = shell.cd("/home/bmap_doc/");
         console.log("res1", res1);
