@@ -9,20 +9,15 @@ http
     require.on("data", data => {
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
-      const path = projectPath.get(jsonobj.project_id);
-      if (path) {
-        const res1 = shell.cd(path);
-        console.log("res1", res1);
+      const config = projectPath.get(jsonobj.project_id);
+      if (config) {
+        shell.cd(config.path);
         // 执行git pull
-        const result = shell.exec("git pull origin master");
-        console.log(result);
+        shell.exec("git pull origin master");
         // 删除编译文件
         shell.exec("rm -rf ./build");
         // 执行编译
-        const buildresult = shell.exec("npm run build");
-        console.log("-------------buildresult:--------------");
-        console.log(buildresult);
-        console.log("-----------------------------------------");
+        shell.exec(config.buildScript);
       } else {
         console.error(
           `error: project: ${jsonobj.repository.name} 没有配置该项目相关路径`
