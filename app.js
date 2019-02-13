@@ -17,7 +17,7 @@ http
       if (path) {
         console.log(path);
       }
-      console.log(jsonobj.project_id);
+      console.log(jsonobj.project_id, projectPath);
       if (0) {
         const res1 = shell.cd("/home/bmap_doc/");
         console.log("res1", res1);
