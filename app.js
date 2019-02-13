@@ -13,6 +13,7 @@ http
       const buffer = Buffer.from(data);
       const jsonobj = buffer.toJSON();
       const path = projectPath.get(jsonobj.project_id);
+      console.log(jsonobj);
       if (path) {
         console.log(path);
       }
