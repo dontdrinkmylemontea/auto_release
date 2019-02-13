@@ -11,7 +11,6 @@ http
     response.end("Hello World\n");
     require.on("data", data => {
       const buffer = Buffer.from(data);
-      const str = buffer.toString();
       const jsonobj = buffer.toJSON();
       const path = projectPath.get(jsonobj.project_id);
       if (path) {
@@ -21,7 +20,7 @@ http
         jsonobj.project_id,
         projectPath,
         jsonobj.project_id,
-        jsonobj[project_id]
+        jsonobj["project_id"]
       );
       if (0) {
         const res1 = shell.cd("/home/bmap_doc/");
