@@ -11,7 +11,7 @@ http
     response.end("Hello World\n");
     require.on("data", data => {
       const buffer = Buffer.from(data);
-      const jsonobj = buffer.toJSON();
+      const jsonobj = JSON.parse(buffer.toString());
       const path = projectPath.get(jsonobj.project_id);
       console.log(jsonobj);
       if (path) {
