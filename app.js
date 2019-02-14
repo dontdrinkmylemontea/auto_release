@@ -14,10 +14,11 @@ http
       if (config && ref === config.releaseBranch) {
         shell.cd(config.path);
         // 执行git pull
-        shell.exec("git pull origin master");
+        shell.exec(`git pull origin ${ref}`);
         // 删除编译文件
         // shell.exec("rm -rf ./build");
         // 执行编译
+        console.log(config.buildScript);
         shell.exec(config.buildScript);
       } else {
         console.error(
