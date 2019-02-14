@@ -7,7 +7,9 @@ const port = 8080;
 http
   .createServer((require, response) => {
     let requestConfig = undefined;
+    console.log("in server");
     require.on("data", data => {
+      console.log("get data");
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
       const config = projectPath.get(jsonobj.project_id);
@@ -29,6 +31,7 @@ http
       }
     });
     response.on("finish", () => {
+      console.log("finish sending response");
       if (requestConfig) {
         shell.cd(requestConfig.path);
         // 执行git pull
