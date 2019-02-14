@@ -10,12 +10,13 @@ http
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
       const config = projectPath.get(jsonobj.project_id);
-      if (config) {
+      const ref = jsonobj.ref?jsonobj.ref.split("/")[2]:0;
+      if (config && ref === config.releaseBranch) {
         shell.cd(config.path);
         // 执行git pull
         shell.exec("git pull origin master");
         // 删除编译文件
-        shell.exec("rm -rf ./build");
+        // shell.exec("rm -rf ./build");
         // 执行编译
         shell.exec(config.buildScript);
       } else {
