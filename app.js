@@ -10,14 +10,8 @@ http
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
       const config = projectPath.get(jsonobj.project_id);
-<<<<<<< HEAD
-      const ref = jsonobj.ref?jsonobj.ref.split("/")[2]:0;
+      const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
       if (config && ref === config.releaseBranch) {
-=======
-      console.log(jsonobj);
-	console.log(jsonobj.ref.split("/")[2]);
-      if (config) {
->>>>>>> e280d81b74c38f4997dd42e894f1a4732bd86ebf
         shell.cd(config.path);
         // 执行git pull
         shell.exec("git pull origin master");
