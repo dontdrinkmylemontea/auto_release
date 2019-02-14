@@ -15,8 +15,6 @@ http
         shell.cd(config.path);
         // 执行git pull
         shell.exec(`git pull origin ${ref}`);
-        // 删除编译文件
-        // shell.exec("rm -rf ./build");
         // 执行编译
         const result = shell.exec(config.buildScript);
         console.log(result);
