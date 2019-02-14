@@ -18,7 +18,7 @@ http
           shell.exec(`git pull origin ${ref}`);
           // 执行编译
           const result = shell.exec(config.buildScript);
-          console.log(result);
+          console.log("in immediate, result is", result);
         });
       } else {
         console.error(
