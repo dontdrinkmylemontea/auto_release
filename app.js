@@ -10,6 +10,8 @@ http
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
       const config = projectPath.get(jsonobj.project_id);
+      console.log(jsonobj);
+	console.log(jsonobj.ref.split("/")[2]);
       if (config) {
         shell.cd(config.path);
         // 执行git pull
