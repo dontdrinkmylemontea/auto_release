@@ -18,8 +18,8 @@ http
         // 删除编译文件
         // shell.exec("rm -rf ./build");
         // 执行编译
-        console.log(config.buildScript);
-        shell.exec(config.buildScript);
+        const result = shell.exec(config.buildScript);
+        console.log(result);
       } else {
         console.error(
           `error: project: ${jsonobj.repository.name} 没有配置该项目相关路径`
