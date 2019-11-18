@@ -10,10 +10,8 @@ http
     require.on("data", data => {
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
-      const config = projectPath.get(jsonobj.project_id);
-      console.log(buffer.toString());
+      const config = projectPath.get(jsonobj.repository.id);
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
-      console.log("ref = ", ref);
       if (config && ref === config.releaseBranch) {
         requestConfig = config;
       } else {
@@ -26,7 +24,9 @@ http
       if (requestConfig) {
         shell.cd(requestConfig.path);
         // 执行git pull
-        shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
+        shell.exec(
+          `git pull ${requestConfig.remotePath} ${requestConfig.releaseBranch}`
+        );
         // 执行编译
         shell.exec(requestConfig.buildScript);
       }
