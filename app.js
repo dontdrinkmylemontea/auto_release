@@ -2,7 +2,7 @@ var http = require("http");
 var shell = require("shelljs");
 var { projectPath } = require("./config.js");
 
-const port = 8080;
+const port = 8070;
 
 http
   .createServer((require, response) => {
@@ -11,7 +11,9 @@ http
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
       const config = projectPath.get(jsonobj.project_id);
+      console.log(buffer.toString());
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
+      console.log("ref = ", ref);
       if (config && ref === config.releaseBranch) {
         requestConfig = config;
       } else {
