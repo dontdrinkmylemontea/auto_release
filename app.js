@@ -24,9 +24,7 @@ http
       if (requestConfig) {
         shell.cd(requestConfig.path);
         // 执行git pull
-        shell.exec(
-          `git pull ${requestConfig.remotePath} ${requestConfig.releaseBranch}`
-        );
+        shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
         // 执行编译
         shell.exec(requestConfig.buildScript);
       }
