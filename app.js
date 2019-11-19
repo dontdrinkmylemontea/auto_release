@@ -27,6 +27,8 @@ http
         shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
         // 执行编译
         shell.exec(requestConfig.buildScript);
+        // 执行部署
+        shell.exec(requestConfig.publishScript);
       }
     });
     response.writeHead(200, { "Content-Type": "text/plain" });
