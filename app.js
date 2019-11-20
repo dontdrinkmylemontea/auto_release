@@ -29,10 +29,13 @@ http
         shell.exec(requestConfig.buildScript);
         // 执行部署
         shell.exec(requestConfig.publishScript);
+        response.writeHead(200, { "Content-Type": "text/plain" });
+        response.end("success");
+      } else {
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        response.end("没找到该项目的配置");
       }
     });
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    response.end("success");
   })
   .listen(port)
   .on("error", error => {
