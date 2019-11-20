@@ -1,10 +1,6 @@
 var http = require("http");
 var shell = require("shelljs");
-var { projectPath } = require("./config.js");
-
-const port = 8070;
-
-//  1 2
+var { projectPath, listenPort } = require("./config.js");
 
 http
   .createServer((require, response) => {
@@ -12,7 +8,7 @@ http
     require.on("data", data => {
       const buffer = Buffer.from(data);
       const jsonobj = JSON.parse(buffer.toString());
-      const config = projectPath.get(jsonobj.repository.id);
+      const config = projectPath.get(jsonobj.repository.name);
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
       if (config && ref === config.releaseBranch) {
         requestConfig = config;
@@ -35,13 +31,13 @@ http
         response.end("success");
       } else {
         response.writeHead(404, { "Content-Type": "text/plain" });
-        response.end("没找到该项目的配置");
+        response.end(`"没找到该项目的配置"`);
       }
     });
   })
-  .listen(port)
+  .listen(listenPort)
   .on("error", error => {
     console.error("error", error.message);
   });
 
-console.log(`server running on http://localhost:${port}`);
+console.log(`server running on http://localhost:${listenPort}`);
