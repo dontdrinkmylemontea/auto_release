@@ -5,9 +5,17 @@ var { projectPath, listenPort } = require("./config.js");
 http
   .createServer((require, response) => {
     let requestConfig = undefined;
+    let databuf = "";
     require.on("data", data => {
-      const buffer = Buffer.from(data);
+      databuf += data;
+    });
+    response.on("finish", () => {
+      const buffer = Buffer.from(databuf);
+      console.log("buffer = ", buffer);
       const jsonobj = JSON.parse(buffer.toString());
+      console.log("----------------jsonobj--------------------------");
+      console.log(jsonobj);
+      console.log("------------------------------------------");
       const config = projectPath.get(jsonobj.repository.name);
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
       if (config && ref === config.releaseBranch) {
@@ -17,8 +25,6 @@ http
           `error: project: ${jsonobj.repository.name} 没有配置该项目相关路径`
         );
       }
-    });
-    response.on("finish", () => {
       if (requestConfig) {
         shell.cd(requestConfig.path);
         // 执行git pull

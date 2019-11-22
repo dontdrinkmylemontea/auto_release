@@ -5,7 +5,7 @@ projectPath.set("frontalgo", {
   releaseBranch: "master",
   buildScript: "npm run build",
   publishScript:
-    "pm2 stop frontalgo && pm2 serve /root/html/frontalgo/dist/ 8090 --name frontalgo"
+    "rm -rf /usr/share/nginx/frontalgo/* && mv /root/html/frontalgo/dist/* /usr/share/nginx/frontalgo/ && nginx -s reopen"
 });
 
 module.exports.projectPath = projectPath;
