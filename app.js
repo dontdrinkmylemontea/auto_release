@@ -22,6 +22,7 @@ http
         );
       }
       if (requestConfig) {
+        console.log(`-----------开始发布：${new Date().getTime()}-----------`);
         shell.cd(requestConfig.path);
         // 执行git pull
         shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
@@ -31,6 +32,9 @@ http
         shell.exec(requestConfig.buildScript);
         // 执行部署
         shell.exec(requestConfig.publishScript);
+        console.log(
+          `-------------已完成发布${new Date().getTime()}-----------`
+        );
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.end("success");
       } else {
