@@ -7,6 +7,7 @@ http
     let requestConfig = undefined;
     let databuf = "";
     require.on("data", data => {
+      console.log("data = ", data);
       databuf += data;
     });
     require.on("finish", () => {
