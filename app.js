@@ -9,7 +9,7 @@ http
     require.on("data", data => {
       databuf += data;
     });
-    response.on("finish", () => {
+    require.on("finish", () => {
       const buffer = Buffer.from(databuf);
       console.log("buffer = ", buffer);
       const jsonobj = JSON.parse(buffer.toString());
