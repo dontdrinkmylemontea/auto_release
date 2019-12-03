@@ -44,11 +44,11 @@ http
         shell.cd(requestConfig.path);
         // 执行git pull
         shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
-        安装依赖;
+        // 安装依赖;
         shell.exec("cnpm i");
-        执行编译;
+        // 执行编译;
         shell.exec(requestConfig.buildScript);
-        执行部署;
+        // 执行部署;
         shell.exec(requestConfig.publishScript);
         console.log(`提交信息【${commit}】`);
         console.log(
