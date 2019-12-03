@@ -13,8 +13,19 @@ http
 
     request.on("end", () => {
       let requestConfig = undefined;
-      console.log(data);
-      const jsonobj = JSON.parse(Buffer.from(data).toString());
+      let jsonobj = null;
+      try {
+        jsonobj = JSON.parse(Buffer.from(data).toString());
+      } catch (error) {
+        console.log("------------ERROR---------------");
+        console.error("钩子数据转json失败！");
+        console.log("data = ");
+        console.log(data);
+        console.log("------------ERROR---------------");
+        response.writeHead(500, { "Content-Type": "text/plain" });
+        response.end("钩子数据转json失败!");
+        return;
+      }
       const config = projectPath.get(jsonobj.repository.name);
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
       if (config && ref === config.releaseBranch) {
@@ -33,12 +44,12 @@ http
         shell.cd(requestConfig.path);
         // 执行git pull
         shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
-        // 安装依赖
-        // shell.exec("cnpm i");
-        // 执行编译
-        // shell.exec(requestConfig.buildScript);
-        // 执行部署
-        // shell.exec(requestConfig.publishScript);
+        安装依赖;
+        shell.exec("cnpm i");
+        执行编译;
+        shell.exec(requestConfig.buildScript);
+        执行部署;
+        shell.exec(requestConfig.publishScript);
         console.log(
           `-------------已完成发布${moment().format(
             "MMMM Do YYYY, h:mm:ss a"
