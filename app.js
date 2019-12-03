@@ -3,7 +3,6 @@ var shell = require("shelljs");
 var { projectPath, listenPort } = require("./config.js");
 var moment = require("moment");
 
-// 1 2
 http
   .createServer((request, response) => {
     let data = "";
@@ -27,19 +26,20 @@ http
         return;
       }
       const config = projectPath.get(jsonobj.repository.name);
+      const commit = ((jsonobj.commits || [])[0] || {}).message;
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
       if (config && ref === config.releaseBranch) {
         requestConfig = config;
       } else {
         console.error(
-          `error: project: ${jsonobj.repository.name} 没有配置该项目相关路径`
+          `错误: 项目【${jsonobj.repository.name}】没有配置该项目相关路径`
         );
       }
       if (requestConfig) {
         console.log(
-          `-----------开始发布：${moment().format(
+          `-----------开始发布：【${moment().format(
             "MMMM Do YYYY, h:mm:ss a"
-          )}-----------`
+          )}】-----------`
         );
         shell.cd(requestConfig.path);
         // 执行git pull
@@ -50,10 +50,11 @@ http
         shell.exec(requestConfig.buildScript);
         执行部署;
         shell.exec(requestConfig.publishScript);
+        console.log(`提交信息【${commit}】`);
         console.log(
-          `-------------已完成发布${moment().format(
+          `-------------已完成发布【${moment().format(
             "MMMM Do YYYY, h:mm:ss a"
-          )}-----------`
+          )}】-----------`
         );
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.end("success");
