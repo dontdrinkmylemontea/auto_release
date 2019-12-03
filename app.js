@@ -1,6 +1,7 @@
 var http = require("http");
 var shell = require("shelljs");
 var { projectPath, listenPort } = require("./config.js");
+var moment = require("moment");
 
 http
   .createServer((request, response) => {
@@ -11,6 +12,7 @@ http
 
     request.on("end", () => {
       let requestConfig = undefined;
+      console.log(data);
       const jsonobj = JSON.parse(Buffer.from(data).toString());
       const config = projectPath.get(jsonobj.repository.name);
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
@@ -22,18 +24,24 @@ http
         );
       }
       if (requestConfig) {
-        console.log(`-----------开始发布：${new Date().getTime()}-----------`);
+        console.log(
+          `-----------开始发布：${moment().format(
+            "MMMM Do YYYY, h:mm:ss a"
+          )}-----------`
+        );
         shell.cd(requestConfig.path);
         // 执行git pull
         shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
         // 安装依赖
-        shell.exec("cnpm i");
+        // shell.exec("cnpm i");
         // 执行编译
-        shell.exec(requestConfig.buildScript);
+        // shell.exec(requestConfig.buildScript);
         // 执行部署
-        shell.exec(requestConfig.publishScript);
+        // shell.exec(requestConfig.publishScript);
         console.log(
-          `-------------已完成发布${new Date().getTime()}-----------`
+          `-------------已完成发布${moment().format(
+            "MMMM Do YYYY, h:mm:ss a"
+          )}-----------`
         );
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.end("success");
