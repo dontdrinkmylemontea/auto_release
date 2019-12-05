@@ -3,20 +3,21 @@ var shell = require("shelljs");
 var { projectPath, listenPort } = require("./config.js");
 var moment = require("moment");
 
-function setError(errorCode, errorMessage, printData) {
-  console.log("------------ERROR---------------");
-  console.error(errorMessage);
-  console.log("printData = ");
-  console.log(printData);
-  console.log("------------ERROR---------------");
-  response.writeHead(errorCode, { "Content-Type": "text/plain" });
-  response.setDefaultEncoding("utf-8");
-  response.end(errorMessage);
-}
-
 http
   .createServer((request, response) => {
     let data = "";
+
+    function setError(errorCode, errorMessage, printData) {
+      console.log("------------ERROR---------------");
+      console.error(errorMessage);
+      console.log("printData = ");
+      console.log(printData);
+      console.log("------------ERROR---------------");
+      response.writeHead(errorCode, { "Content-Type": "text/plain" });
+      response.setDefaultEncoding("utf-8");
+      response.end(errorMessage);
+    }
+
     request.on("data", buf => {
       data += buf;
     });
