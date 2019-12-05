@@ -3,18 +3,22 @@ var shell = require("shelljs");
 var { projectPath, listenPort } = require("./config.js");
 var moment = require("moment");
 
+gettime = () => `【${moment().format("MMMM Do YYYY, h:mm:ss a")}】`;
+
+divider = title => console.log(`-----------${title} ${gettime()}-----------`);
+
 http
   .createServer((request, response) => {
     let data = "";
 
     function setError(errorCode, errorMessage, printData) {
-      console.log("------------ERROR---------------");
+      divider("ERROR");
       console.error(errorMessage);
       console.log("printData = ");
       console.log(printData);
-      console.log("------------ERROR---------------");
+      divider("ERROR");
       response.writeHead(errorCode, { "Content-Type": "text/plain" });
-      response.end(errorMessage, "utf-8");
+      response.end(errorMessage, "UTF-8");
     }
 
     request.on("data", buf => {
@@ -34,6 +38,7 @@ http
         setError(400, "参数错误!", data);
         return;
       }
+      console.log(jsonobj);
       const config = projectPath.get(jsonobj.repository.name);
       const commit = ((jsonobj.commits || [])[0] || {}).message;
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
@@ -45,26 +50,14 @@ http
         );
       }
       if (requestConfig) {
-        console.log(
-          `-----------开始发布：【${moment().format(
-            "MMMM Do YYYY, h:mm:ss a"
-          )}】-----------`
-        );
+        divider("开始发布");
         shell.cd(requestConfig.path);
-        // 执行git pull
         shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
-        // 安装依赖;
         shell.exec("cnpm i");
-        // 执行编译;
         shell.exec(requestConfig.buildScript);
-        // 执行部署;
         shell.exec(requestConfig.publishScript);
         console.log(`提交信息【${commit}】`);
-        console.log(
-          `-------------已完成发布【${moment().format(
-            "MMMM Do YYYY, h:mm:ss a"
-          )}】-----------`
-        );
+        divider("完成发布");
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.end("success");
       } else {
