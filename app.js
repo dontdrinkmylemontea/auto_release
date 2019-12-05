@@ -3,6 +3,17 @@ var shell = require("shelljs");
 var { projectPath, listenPort } = require("./config.js");
 var moment = require("moment");
 
+function setError(errorCode, errorMessage, printData) {
+  console.log("------------ERROR---------------");
+  console.error(errorMessage);
+  console.log("printData = ");
+  console.log(printData);
+  console.log("------------ERROR---------------");
+  response.writeHead(errorCode, { "Content-Type": "text/plain" });
+  response.setDefaultEncoding("utf-8");
+  response.end(errorMessage);
+}
+
 http
   .createServer((request, response) => {
     let data = "";
@@ -15,14 +26,12 @@ http
       let jsonobj = null;
       try {
         jsonobj = JSON.parse(Buffer.from(data).toString());
-      } catch (error) {
-        console.log("------------ERROR---------------");
-        console.error("钩子数据转json失败！");
-        console.log("data = ");
-        console.log(data);
-        console.log("------------ERROR---------------");
-        response.writeHead(500, { "Content-Type": "text/plain" });
-        response.end("钩子数据转json失败!");
+      } catch (e) {
+        setError(400, "钩子数据转json失败！", data);
+        return;
+      }
+      if (!(jsonobj.repository && jsonobj.repository.name)) {
+        setError(400, "参数错误!", data);
         return;
       }
       const config = projectPath.get(jsonobj.repository.name);
