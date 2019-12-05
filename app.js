@@ -14,8 +14,7 @@ http
       console.log(printData);
       console.log("------------ERROR---------------");
       response.writeHead(errorCode, { "Content-Type": "text/plain" });
-      response.setDefaultEncoding("utf-8");
-      response.end(errorMessage);
+      response.end(errorMessage, "utf-8");
     }
 
     request.on("data", buf => {
