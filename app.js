@@ -7,7 +7,7 @@ gettime = () => `【${moment().format("MMMM Do YYYY, h:mm:ss a")}】`;
 
 divider = title => console.log(`-----------${title} ${gettime()}-----------`);
 
-logger = content => console.log(`[${gettime}]: ${content}`);
+logger = content => console.log(`[${gettime()}]: ${content}`);
 
 execShellScript = configure => {
   const scripts = generateScripts(configure);
@@ -64,7 +64,8 @@ http
       if (requestConfig) {
         divider("开始发布");
         execShellScript(requestConfig);
-        divider(`完成发布【${commit}】`);
+        logger(commit);
+        divider("完成发布");
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.end("success");
       } else {
