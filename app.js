@@ -3,11 +3,11 @@ var shell = require("shelljs");
 var { projectPath, listenPort, generateScripts } = require("./config.js");
 var moment = require("moment");
 
-gettime = () => `【${moment().format("MMMM Do YYYY, h:mm:ss a")}】`;
+gettime = () => `[${moment().format("MMMM Do YYYY, h:mm:ss a")}]`;
 
 divider = title => console.log(`-----------${title} ${gettime()}-----------`);
 
-logger = content => console.log(`[${gettime()}]: ${content}`);
+logger = content => console.log(`${gettime()} ${content}`);
 
 execShellScript = configure => {
   const scripts = generateScripts(configure);
