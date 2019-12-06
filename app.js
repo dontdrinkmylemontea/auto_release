@@ -1,11 +1,24 @@
 var http = require("http");
 var shell = require("shelljs");
-var { projectPath, listenPort } = require("./config.js");
+var { projectPath, listenPort, generateScripts } = require("./config.js");
 var moment = require("moment");
 
 gettime = () => `【${moment().format("MMMM Do YYYY, h:mm:ss a")}】`;
 
 divider = title => console.log(`-----------${title} ${gettime()}-----------`);
+
+logger = content => console.log(`[${gettime}]: ${content}`);
+
+execShellScript = configure => {
+  const scripts = generateScripts(configure);
+  scripts.forEach(({ path, content, description }) => {
+    const func = path ? "cd" : "exec";
+    if (content) {
+      logger(`开始${description}……`);
+      shell[func](content);
+    }
+  });
+};
 
 http
   .createServer((request, response) => {
@@ -38,7 +51,6 @@ http
         setError(400, "参数错误!", data);
         return;
       }
-      console.log(jsonobj);
       const config = projectPath.get(jsonobj.repository.name);
       const commit = ((jsonobj.commits || [])[0] || {}).message;
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
@@ -51,13 +63,8 @@ http
       }
       if (requestConfig) {
         divider("开始发布");
-        shell.cd(requestConfig.path);
-        shell.exec(`git pull origin ${requestConfig.releaseBranch}`);
-        shell.exec("cnpm i");
-        shell.exec(requestConfig.buildScript);
-        shell.exec(requestConfig.publishScript);
-        console.log(`提交信息【${commit}】`);
-        divider("完成发布");
+        execShellScript(requestConfig);
+        divider(`完成发布【${commit}】`);
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.end("success");
       } else {
