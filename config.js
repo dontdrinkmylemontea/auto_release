@@ -23,7 +23,7 @@ projectPath.set("shopwindow", {
   releaseBranch: "master",
   buildScript: "npm run build",
   publishScript:
-    "rm -rf /usr/share/nginx/shopwindow/* && mv /root/html/shopwindow/public/* /usr/share/nginx/shopwindow/ && nginx -s reopen"
+    "rm -rf /usr/share/nginx/shopwindow/* && mv /root/html/shopwindow/build/* /usr/share/nginx/shopwindow/ && nginx -s reopen"
 });
 
 module.exports.projectPath = projectPath;
