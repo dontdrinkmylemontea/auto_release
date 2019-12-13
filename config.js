@@ -17,6 +17,15 @@ projectPath.set("hanbaoblog", {
     "rm -rf /usr/share/nginx/hanbaoblog/* && mv /root/html/hanbaoblog/public/* /usr/share/nginx/hanbaoblog/ && nginx -s reopen"
 });
 
+// 作品展示橱窗
+projectPath.set("shopwindow", {
+  path: "/root/html/shopwindow/",
+  releaseBranch: "master",
+  buildScript: "npm run build",
+  publishScript:
+    "rm -rf /usr/share/nginx/shopwindow/* && mv /root/html/shopwindow/public/* /usr/share/nginx/shopwindow/ && nginx -s reopen"
+});
+
 module.exports.projectPath = projectPath;
 
 module.exports.listenPort = 8070;
