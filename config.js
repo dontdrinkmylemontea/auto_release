@@ -1,6 +1,6 @@
 const projectPath = new Map();
 
-const projectCodePath = "/root/html/"; // 项目源代码目录
+const projectCodePath = "/root/html/nice/"; // 项目源代码目录
 const nginxSourcePath = "/usr/share/nginx/"; // nginx 压缩文件目录
 
 const getGeneraConfig = projectName => ({
