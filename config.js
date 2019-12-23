@@ -1,35 +1,23 @@
 const projectPath = new Map();
-// 算法
-projectPath.set("frontalgo", {
-  path: "/root/html/frontalgo/",
+
+const projectCodePath = "/root/html/"; // 项目源代码目录
+const nginxSourcePath = "/usr/share/nginx/"; // nginx 压缩文件目录
+
+const getGeneraConfig = projectName => ({
+  path: `${projectCodePath}${projectName}/`,
   releaseBranch: "master",
   buildScript: "npm run build",
-  publishScript:
-    "rm -rf /usr/share/nginx/frontalgo/* && mv /root/html/frontalgo/dist/* /usr/share/nginx/frontalgo/ && nginx -s reopen"
+  publishScript: `rm -rf ${nginxSourcePath}${projectName}/* && mv ${projectCodePath}${projectName}/dist/* ${nginxSourcePath}${projectName}/ && nginx -s reopen`
 });
 
-// 博客
-projectPath.set("hanbaoblog", {
-  path: "/root/html/hanbaoblog/",
-  releaseBranch: "master",
-  buildScript: "npm run build",
-  publishScript:
-    "rm -rf /usr/share/nginx/hanbaoblog/* && mv /root/html/hanbaoblog/public/* /usr/share/nginx/hanbaoblog/ && nginx -s reopen"
-});
+const projectNames = ["frontalgo", "hanbaoblog", "shopwindow"];
 
-// 作品展示橱窗
-projectPath.set("shopwindow", {
-  path: "/root/html/shopwindow/",
-  releaseBranch: "master",
-  buildScript: "npm run build",
-  publishScript:
-    "rm -rf /usr/share/nginx/shopwindow/* && mv /root/html/shopwindow/dist/* /usr/share/nginx/shopwindow/ && nginx -s reopen"
+projectNames.forEach(name => {
+  projectPath.set(name, getGeneraConfig(name));
 });
 
 module.exports.projectPath = projectPath;
-
 module.exports.listenPort = 8070;
-
 module.exports.generateScripts = ({
   path,
   releaseBranch,
