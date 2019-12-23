@@ -24,4 +24,3 @@ projectPath.set("frontalgo", {
 "buildScript": 项目编译命令
 "publishScript": 项目部署命令
 
-// 测试测试
