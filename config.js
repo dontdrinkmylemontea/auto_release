@@ -3,17 +3,24 @@ const projectPath = new Map();
 const projectCodePath = "/root/html/nice/"; // 项目源代码目录
 const nginxSourcePath = "/usr/share/nginx/"; // nginx 压缩文件目录
 
-const getGeneraConfig = projectName => ({
+const getGeneraConfig = ({ projectName, releasedir = "dist" }) => ({
   path: `${projectCodePath}${projectName}/`,
   releaseBranch: "master",
   buildScript: "npm run build",
-  publishScript: `rm -rf ${nginxSourcePath}${projectName}/* && mv ${projectCodePath}${projectName}/dist/* ${nginxSourcePath}${projectName}/ && nginx -s reopen`
+  publishScript: `rm -rf ${nginxSourcePath}${projectName}/* && mv ${projectCodePath}${projectName}/${releasedir}/* ${nginxSourcePath}${projectName}/ && nginx -s reopen`
 });
 
-const projectNames = ["frontalgo", "hanbaoblog", "shopwindow"];
+const projectNames = [
+  { name: "frontalgo" },
+  { name: "hanbaoblog", dir: "public" },
+  { name: "shopwindow" }
+];
 
-projectNames.forEach(name => {
-  projectPath.set(name, getGeneraConfig(name));
+projectNames.forEach(({ name, dir }) => {
+  projectPath.set(
+    name,
+    getGeneraConfig({ projectName: name, releasedir: dir })
+  );
 });
 
 module.exports.projectPath = projectPath;
