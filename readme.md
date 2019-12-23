@@ -23,3 +23,5 @@ projectPath.set("frontalgo", {
 "releaseBranch": 项目所在分支
 "buildScript": 项目编译命令
 "publishScript": 项目部署命令
+
+// 测试测试
