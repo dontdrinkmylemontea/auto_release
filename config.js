@@ -14,7 +14,8 @@ const projectNames = [
   { name: "frontalgo" },
   { name: "hanbaoblog", dir: "public" },
   { name: "shopwindow" },
-  { name: "binarysearch" }
+  { name: "binarysearch" },
+  { name: "kitten" }
 ];
 
 projectNames.forEach(({ name, dir }) => {
