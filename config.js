@@ -25,7 +25,9 @@ projectNames.forEach(({ name, dir }) => {
 });
 
 module.exports.projectPath = projectPath;
+
 module.exports.listenPort = 8070;
+
 module.exports.generateScripts = ({
   path,
   releaseBranch,
