@@ -54,6 +54,7 @@ http
       const config = projectPath.get(jsonobj.repository.name);
       const commit = ((jsonobj.commits || [])[0] || {}).message;
       const ref = jsonobj.ref ? jsonobj.ref.split("/")[2] : 0;
+      console.log(projectPath, config, ref);
       if (config && ref === config.releaseBranch) {
         requestConfig = config;
       } else {
