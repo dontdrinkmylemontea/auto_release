@@ -13,7 +13,8 @@ const getGeneraConfig = ({ projectName, releasedir = "dist" }) => ({
 const projectNames = [
   { name: "frontalgo" },
   { name: "hanbaoblog", dir: "public" },
-  { name: "shopwindow" }
+  { name: "shopwindow" },
+  { name: "binarysearch" }
 ];
 
 projectNames.forEach(({ name, dir }) => {
