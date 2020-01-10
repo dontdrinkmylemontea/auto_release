@@ -62,12 +62,12 @@ http
         );
       }
       if (requestConfig) {
+        response.writeHead(200, { "Content-Type": "text/plain" });
+        response.end("success");
         divider("开始发布");
         execShellScript(requestConfig);
         logger(commit);
         divider("完成发布");
-        response.writeHead(200, { "Content-Type": "text/plain" });
-        response.end("success");
       } else {
         response.writeHead(404, { "Content-Type": "text/plain" });
         response.end("没找到该项目的配置");
