@@ -15,7 +15,8 @@ const projectNames = [
   { name: "hanbaoblog", dir: "public" },
   { name: "shopwindow" },
   { name: "binarysearch" },
-  { name: "kitten" }
+  { name: "kitten" },
+  { name: "dotdot" }
 ];
 
 projectNames.forEach(({ name, dir }) => {
